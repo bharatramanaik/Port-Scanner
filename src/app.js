@@ -32,12 +32,13 @@ app.get('/scanner',(req,res)=>{
 
 
 app.post('/scan',(req,res)=>{
-    const {stype}=req.query;
-    //console.log(stype);
-    const {target}=req.query;
-    const mport=req.query;
+    const {stype}=req.body;
     
-    //console.log(target);
+    const {target}=req.body;
+    const mport=req.body;
+    // console.log({stype});
+    // console.log(target);
+    // console.log(mport);
     exec(`nmap ${stype} ${mport} ${target}`,(error,stdout,stderr)=>{
         if(error){
             console.error(`Error: ${error.message}`);

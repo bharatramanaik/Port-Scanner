@@ -1,10 +1,24 @@
 {
   "dependencies": {
-    
     "child_process": "^1.0.2",
-    
     "ejs": "^3.1.9",
     "express": "^4.18.2"
-    
-  }
+  },
+  "name": "scanner",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bharatramanaik/Scanner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bharatramanaik/Scanner/issues"
+  },
+  "homepage": "https://github.com/bharatramanaik/Scanner#readme",
+  "description": ""
 }
