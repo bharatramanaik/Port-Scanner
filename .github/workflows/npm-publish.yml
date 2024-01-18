@@ -32,8 +32,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
     
-      - name: Build and Push Docker Image
-        uses: mr-smithers-excellent/docker-build-push@v4
+      - uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: bharat0912/naik
           registry: docker.io
