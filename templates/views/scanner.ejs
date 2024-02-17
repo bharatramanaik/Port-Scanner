@@ -24,7 +24,16 @@
                         <option value="-sV">-sV (version detecton)</option>
                         <option value="-O">-O (OS detecton)</option>
                         <option value="-sT">-sT (TCP connect scan)</option>
-                        <option value="-Pn">-Pn</option>
+                        <option value="-Pn">-Pn (Ping scan)</option>
+                        <option value="-v">-v (Get detailed info)</option>
+                        <option value="-sA">-sA (To detect firewall)</option>
+                        <option value="-sL">-sL (Identify hostname)</option>
+                        <option value="-sU">-sU (UDP scan)</option>
+                        <option value="-A">-A (Aggressive scan)</option>
+                        <option value="-sO">-sO (IP protocol scan)</option>
+                        <option value="-b">-b (FTP bounce scan)</option>
+                        <option value="-sI">-sI (Idle scan)</option>
+                        <option value="-sW">-sW (TCP window scan)</option>
                     </select><br><br><br>
                     <label for="mport">You can specify ports</label><br><br>
                     <input type="text" name="mport" id="myport" placeholder="-p <port number>"><br><br><br>
@@ -32,6 +41,7 @@
                     <input type="text" name="target" id="mytarget" placeholder="ex:- portscanner.com" required><br><br>
                     <br>
                     <button type="submit" id="mybtn">Scan</button>
+                    <label for="warn" id="warning"></label>
                 </form>
             </div>
         </div>
@@ -41,4 +51,5 @@
         
        
 </body>
+
 </html>

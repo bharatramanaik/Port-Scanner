@@ -45,7 +45,7 @@ app.post('/scan',(req,res)=>{
             res.status(404).send("an error occured,sorry");
             return;
         }
-        //console.log(stdout);
+        // console.log(stdout);
         const report=`<pre>${stdout}</pre>`;
        
         res.send(`
