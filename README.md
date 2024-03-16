@@ -3,12 +3,12 @@
 ## Pull the Docker image
 - This repo provides you with a prebuilt Docker image that you can pull and run in seconds.
 ```
-docker pull bharat0912/scanner
+docker pull bharat0912/scanner:1.1
 ```
 
 ## Running the Port scanner container
 ```
-docker run -d -p 3000:3000 bharat0912/scanner
+docker run -d -p 3000:3000 bharat0912/scanner:1.1
 ```
 
 ## Installing Port scanner
