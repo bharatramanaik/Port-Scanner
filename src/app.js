@@ -36,59 +36,61 @@ app.post('/scan',(req,res)=>{
     
     const {target}=req.body;
     const mport=req.body;
-    // console.log({stype});
-    // console.log(target);
-    // console.log(mport);
-    exec(`nmap ${stype} ${mport} ${target}`,(error,stdout,stderr)=>{
-        if(error){
-            console.error(`Error: ${error.message}`);
-            res.status(404).send("an error occured,sorry");
-            return;
-        }
-        // console.log(stdout);
-        const report=`<pre>${stdout}</pre>`;
-       
-        res.send(`
-        <link rel="stylesheet" href="homes.css">
-        <link rel="shortcut icon" href="pics/scanvectorfavicon.jpg" type="image/x-icon">
-                <style>
-                   
-                        #goback{
-                            margin-top: 4cm;
-                            margin-right: 3cm;
-                            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-                            font-size: 23px;
-                            height: 1.2cm;
-                            width: 7cm;
-                            background-color: #fff;
-                            border-radius: 5px;
-                            border-style: solid;
-                            color: #0050da;
-                            border-color: #0050da;
-                        }
-                        
-                        
-                        #goback:hover{
-                            border-style: solid;
-                            border-color: #0050da;
-                            color: #0050da;
-                            cursor: pointer; 
-                            border-radius: 0.3cm;
-                            transition: 700ms;
-                            background-color: #fff;
-                        }
-                 
-                </style>
-                <div style="padding-left:3cm">
-                    <h1 style="color:#0050da; font-size:2cm">The scan report :-</h1>
-                    <h1 style="color:red">${report}</h1><br><br>
-                    <form action="/scanner" method="get">
-                        <button type="submit" id="goback">go back</button> 
-                    </form>
-                </div>`);
+    if(target==""){
+        res.redirect("scanner");
+    }else{
+        exec(`nmap ${stype} ${mport} ${target}`,(error,stdout,stderr)=>{
+            if(error){
+                console.error(`Error: ${error.message}`);
+                res.status(404).send("an error occured,sorry");
+                return;
+            }
+            // console.log(stdout);
+            const report=`<pre>${stdout}</pre>`;
+           
+            res.send(`
+            <link rel="stylesheet" href="homes.css">
+            <link rel="shortcut icon" href="pics/scanvectorfavicon.jpg" type="image/x-icon">
+                    <style>
+                       
+                            #goback{
+                                margin-top: 4cm;
+                                margin-right: 3cm;
+                                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                                font-size: 23px;
+                                height: 1.2cm;
+                                width: 7cm;
+                                background-color: #fff;
+                                border-radius: 5px;
+                                border-style: solid;
+                                color: #0050da;
+                                border-color: #0050da;
+                            }
+                            
+                            
+                            #goback:hover{
+                                border-style: solid;
+                                border-color: #0050da;
+                                color: #0050da;
+                                cursor: pointer; 
+                                border-radius: 0.3cm;
+                                transition: 700ms;
+                                background-color: #fff;
+                            }
+                     
+                    </style>
+                    <div style="padding-left:3cm">
+                        <h1 style="color:#0050da; font-size:2cm">The scan report :-</h1>
+                        <h1 style="color:red">${report}</h1><br><br>
+                        <form action="/scanner" method="get">
+                            <button type="submit" id="goback">go back</button> 
+                        </form>
+                    </div>`);
+        
+          
+        })
+    }
     
-      
-    })
 })
 
 
