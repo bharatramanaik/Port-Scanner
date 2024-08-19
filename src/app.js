@@ -49,6 +49,7 @@ app.post('/scan',(req,res)=>{
 
         nmap.stdout.on('data', (data) => {
             output += data.toString();
+            
         });
         
         nmap.stderr.on('data', (data) => {
