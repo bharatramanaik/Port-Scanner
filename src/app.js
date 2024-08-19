@@ -4,6 +4,7 @@ const ejs=require("ejs");
 const path=require("path");
 const { error } = require("console");
 const { report } = require("process");
+const { spawn } = require('child_process');
 const app=express();
 
 
@@ -20,9 +21,7 @@ app.set("views",template_path);
 
 
 app.get('/',(req,res)=>{
-
      res.render("home")  
-  
 })
 
 app.get('/scanner',(req,res)=>{
@@ -32,63 +31,116 @@ app.get('/scanner',(req,res)=>{
 
 
 app.post('/scan',(req,res)=>{
-    const {stype}=req.body;
+    const { stype, target, mport } = req.body;
+    let args = [stype];
     
-    const {target}=req.body;
-    const mport=req.body;
+    // Add mport only if it's provided
+    if (mport) {
+        args.push(mport);
+    }
+
+    args.push(target);
     if(target==""){
         res.redirect("scanner");
     }else{
-        exec(`nmap ${stype} ${mport} ${target}`,(error,stdout,stderr)=>{
-            if(error){
-                console.error(`Error: ${error.message}`);
-                res.status(404).send("an error occured,sorry");
-                return;
-            }
-            // console.log(stdout);
-            const report=`<pre>${stdout}</pre>`;
-           
-            res.send(`
-            <link rel="stylesheet" href="homes.css">
-            <link rel="shortcut icon" href="pics/scanvectorfavicon.jpg" type="image/x-icon">
-                    <style>
-                       
-                            #goback{
-                                margin-top: 4cm;
-                                margin-right: 3cm;
-                                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-                                font-size: 23px;
-                                height: 1.2cm;
-                                width: 7cm;
-                                background-color: #fff;
-                                border-radius: 5px;
-                                border-style: solid;
-                                color: #0050da;
-                                border-color: #0050da;
-                            }
-                            
-                            
-                            #goback:hover{
-                                border-style: solid;
-                                border-color: #0050da;
-                                color: #0050da;
-                                cursor: pointer; 
-                                border-radius: 0.3cm;
-                                transition: 700ms;
-                                background-color: #fff;
-                            }
-                     
-                    </style>
-                    <div style="padding-left:3cm">
-                        <h1 style="color:#0050da; font-size:2cm">The scan report :-</h1>
-                        <h1 style="color:red">${report}</h1><br><br>
-                        <form action="/scanner" method="get">
-                            <button type="submit" id="goback">go back</button> 
-                        </form>
-                    </div>`);
+        const nmap = spawn('nmap', args);
+
+        let output = '';
+
+        nmap.stdout.on('data', (data) => {
+            output += data.toString();
+        });
         
-          
-        })
+        nmap.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+            res.send(`
+                <link rel="stylesheet" href="homes.css">
+                    <link rel="shortcut icon" href="pics/scanvectorfavicon.jpg" type="image/x-icon">
+                            <style>
+                               
+                                    #goback{
+                                        margin-top: 4cm;
+                                        margin-right: 3cm;
+                                        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                                        font-size: 23px;
+                                        height: 1.2cm;
+                                        width: 7cm;
+                                        background-color: #fff;
+                                        border-radius: 5px;
+                                        border-style: solid;
+                                        color: #0050da;
+                                        border-color: #0050da;
+                                    }
+                                    
+                                    
+                                    #goback:hover{
+                                        border-style: solid;
+                                        border-color: #0050da;
+                                        color: #0050da;
+                                        cursor: pointer; 
+                                        border-radius: 0.3cm;
+                                        transition: 700ms;
+                                        background-color: #fff;
+                                    }
+                             
+                            </style>
+                
+                
+                <div style="padding-left:3cm">
+                                <h1 style="color:#0050da; font-size:2cm">The scan report :-</h1>
+                                <h1 style="color:red">${data}</h1><br><br>
+                                <form action="/scanner" method="get">
+                                    <button type="submit" id="goback">go back</button> 
+                                </form>
+                    </div>`);
+        });
+        let report='';
+        nmap.on('close', (code) => {
+            if (code !== 0) {
+                res.status(500).send('An error occurred, sorry.');
+            } else {
+                report = `<pre>${output}</pre>`;
+                res.send(`
+                    <link rel="stylesheet" href="homes.css">
+                    <link rel="shortcut icon" href="pics/scanvectorfavicon.jpg" type="image/x-icon">
+                            <style>
+                               
+                                    #goback{
+                                        margin-top: 4cm;
+                                        margin-right: 3cm;
+                                        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                                        font-size: 23px;
+                                        height: 1.2cm;
+                                        width: 7cm;
+                                        background-color: #fff;
+                                        border-radius: 5px;
+                                        border-style: solid;
+                                        color: #0050da;
+                                        border-color: #0050da;
+                                    }
+                                    
+                                    
+                                    #goback:hover{
+                                        border-style: solid;
+                                        border-color: #0050da;
+                                        color: #0050da;
+                                        cursor: pointer; 
+                                        border-radius: 0.3cm;
+                                        transition: 700ms;
+                                        background-color: #fff;
+                                    }
+                             
+                            </style>
+                            <div style="padding-left:3cm">
+                                <h1 style="color:#0050da; font-size:2cm">The scan report :-</h1>
+                                <h1 style="color:red">${report}</h1><br><br>
+                                <form action="/scanner" method="get">
+                                    <button type="submit" id="goback">go back</button> 
+                                </form>
+                            </div>`);
+            }
+        });
+        
     }
     
 })

@@ -19,6 +19,7 @@
                 <form action="/scan" method="post">
                     <label for="stype">Select the scanning option*</label><br><br>
                     <select name="stype" id="myselect" >
+                        <option value="-p">-p (Specific port scan)</option>
                         <option value="-F">-F (Fast scan)</option>
                         <option value="-sS">-sS (Stealth scan)</option>
                         <option value="-sV">-sV (version detecton)</option>
@@ -35,8 +36,8 @@
                         <option value="-sI">-sI (Idle scan)</option>
                         <option value="-sW">-sW (TCP window scan)</option>
                     </select><br><br><br>
-                    <label for="mport">You can specify ports</label><br><br>
-                    <input type="text" name="mport" id="myport" placeholder="-p <port number>"><br><br><br>
+                    <label for="mport">You can specify ports(*Use only for option -p)</label><br><br>
+                    <input type="text" name="mport" id="myport" placeholder="<port number>"><br><br><br>
                     <label for="target">Enter the target IP or domain name* </label><br><br>
                     <input type="text" name="target" id="mytarget" placeholder="ex:- portscanner.com" required><br><br>
                     <br>
