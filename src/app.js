@@ -1,5 +1,4 @@
 const express=require("express");
-const {exec}=require("child_process");
 const ejs=require("ejs");
 const path=require("path");
 const { error } = require("console");
@@ -49,7 +48,7 @@ app.post('/scan',(req,res)=>{
 
         nmap.stdout.on('data', (data) => {
             output += data.toString();
-            
+
         });
         
         nmap.stderr.on('data', (data) => {
